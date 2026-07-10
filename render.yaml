@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: streamain-nuvio-bridge
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 1 --threads 4 --timeout 120 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: STREAMAIN_EMAIL
+        sync: false
+      - key: STREAMAIN_PASSWORD
+        sync: false
+      # Optional Cloudflare fallback — paste a browser "Cookie:" header value.
+      - key: STREAMAIN_COOKIE
+        sync: false
+      - key: STREAMAIN_CACHE_TTL
+        value: "1800"
